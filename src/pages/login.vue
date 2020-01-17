@@ -15,18 +15,20 @@
         <div class="section">
             <input
                 class="section-input"
-                v-model="form.isPassword"
+                v-model="form.password"
                 placeholder="请输入您的密码"
                 placeholder-class="input-holder"
                 type="password">
         </div>
-        <button class="btn">登录</button>
+        <button class="btn" @click="login">登录</button>
 
         <p class="login-text">版本归属@ytu所有</p>
     </div>
 </template>
 
 <script>
+import store from '../store'
+
 export default {
     data() {
         return {
@@ -37,6 +39,26 @@ export default {
                 account: '',
                 password: ''
             }
+        }
+    },
+    methods: {
+        login() {
+            if (!this.form.account && !this.form.password) {
+                alert("请填写账号密码")
+                return false
+            }
+            const that = this
+            setTimeout(() => {
+                store.commit('login', {
+                    account: that.form.account,
+                    password: that.form.password
+                }, 500)
+                store.commit('setMemberInfo', {
+                    userStatus: 1,
+                    vipLevel: 0
+                })
+                that.$router.push('./')
+            })
         }
     }
 }
