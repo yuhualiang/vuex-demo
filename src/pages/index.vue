@@ -2,7 +2,7 @@
     <div class="index">
         <h1>你好</h1>
         <p class="text">
-           <span style="color: red;">尊敬的{{this.$store.getters.memberInfo}}用户</span>欢迎来到德莱联盟
+           <span style="color: red;">尊敬的{{memberInfo}}用户</span>欢迎来到德莱联盟
         </p>
         <div>
             <card 
@@ -16,12 +16,17 @@
 
 <script>
 import card from '../components/card'
+import { mapGetters, mapState } from 'vuex'
 
 export default {
     data() {
         return {
             courseList: []
         }
+    },
+    computed: {
+        ...mapState(['userInfo', 'vipLevel']),
+        ...mapGetters(['memberInfo'])
     },
     created() {
         this.courseList = [
