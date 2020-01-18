@@ -1,5 +1,5 @@
 <template>
-    <div class="course-card">
+    <div class="course-card" @click="goVideoList(course)">
         <div class="card-img">
             <img :src="course.thumb" alt="">
         </div>
@@ -20,6 +20,11 @@ export default {
         course: {
             type: Object,
             default: () => {}
+        }
+    },
+    methods: {
+        goVideoList() {
+            this.$emit('goVideoList', this.course)
         }
     }
 }

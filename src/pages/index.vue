@@ -7,10 +7,11 @@
         <div>
             <card 
                 :course="item"
+                @goVideoList="goVideoList"
                 v-for="(item, index) in courseList"
                 :key="index"></card>
         </div>
-        <button class="footer-opt btn">充值</button>
+        <button class="footer-opt btn" @click="recharge">充值</button>
     </div>
 </template>
 
@@ -60,6 +61,37 @@ export default {
                 vipLevel: 12
             }
         ]
+    },
+    methods: {
+        recharge() {
+            this.$router.push('./userCenter')
+        },
+        goVideoList(e) {
+            const res = this._checkPermission(e)
+            if (res) {
+                this.$router.push({
+                    name: 'course',
+                    params: {
+                        id: e.id
+                    }
+                })
+            } else {
+                alert('权限不足，无法观看')
+            }
+        },
+        _checkPermission(e) {
+            const userStatus = this.$store.state.userStatus
+            const vipLevel = this.$store.state.vipLevel
+            if (userStatus >= e.userStatus) {
+               if (vipLevel >= e.vipLevel) {
+                   return true
+               } else {
+                   return false
+               }
+            } else {
+                return false
+            }
+        }
     },
     components: {
         card
